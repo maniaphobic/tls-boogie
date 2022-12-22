@@ -1,0 +1,60 @@
+
+
+
+* Procedure
+
+** Install EFF's Certbot
+
+#+begin_src sh
+  sudo apt install --yes certbot
+#+end_src
+
+** Request certificate
+
+This invocation does the following:
+
+  - =certonly=: acquire the certificate and save it to the local file
+    system without changing the HTTP server's configuration
+  - =--domain ...=: request a certificate for the specified FQDNs
+  - =--webroot --webroot-path ...= use Certbot's "webroot"
+    authentication method
+
+#+begin_src sh
+  sudo certbot certonly \
+       --domain howardabrams.com \
+       --domain www.howardabrams.com \
+       --webroot \
+       --webroot-path /var/www/html
+#+end_src
+
+In webroot authentication, certbot writes a uniquely-named file into
+the HTTP server's document root directory. Let's Encrypt's server
+requests this file and if successful, considers the request authentic.
+
+certbot writes the certificate into its configuration directory.  See
+below for the directory structure.
+
+** Configure the HTTP server
+
+* Configuration files and directories
+
+certbot maintains certificates its configuration
+
+=/etc/letsencrypt=
+
+* Renewal process
+
+Let's Encrypt certificates are valid for 90 days. 
+
+* certbot command idioms
+
+Display a list of managed certificates:
+
+#+begin_src sh
+#+end_src
+
+* Let's Encrypt documentation
+
+https://eff-certbot.readthedocs.io
+
+
