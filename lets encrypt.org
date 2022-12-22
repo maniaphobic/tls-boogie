@@ -9,13 +9,6 @@
   sudo apt install --yes certbot
 #+end_src
 
-* Configuration files and directories
-
-certbot maintains certificates its configuration
-
-=/etc/letsencrypt=
-
-
 * certbot command idioms
 
 ** Request a new certificate
@@ -38,10 +31,11 @@ This invocation does the following:
 
 In webroot authentication, certbot writes a uniquely-named file into
 the HTTP server's document root directory. Let's Encrypt's server
-requests this file and if successful, considers the request authentic.
+requests this file and if successful, considers the request authentic
+and issues a cert.
 
-certbot writes the certificate into its configuration directory.  See
-below for the directory structure.
+certbot writes the cert into its configuration directory.  See below
+for the directory structure.
 
 *** Configure the HTTP server
 
@@ -78,8 +72,52 @@ needs to renew it.
 #+begin_src sh
 #+end_src
 
+* Configuration files and directories
+
+certbot maintains its configuration in =/etc/letsencrypt=:
+
+#+begin_src text
+  /etc/letsencrypt/
+    live/<domain>/                                   # <domain>'s active cert and key, symlinks to archive/<domain>/*
+      cert.pem -> ../../archive/cert1.pem
+      chain.pem -> ../../archive/chain1.pem
+      fullchain.pem -> ../../archive/fullchain1.pem
+      privkey.pem -> ../../archive/privkey1.pem
+    /renewal/<domain>.conf                            # Config to use when renewing <domain>
+    archive/<domain>/                                # Archive of <domain>'s old certs and keys
+      chain1.pem
+      privkey1.pem
+      fullchain1.pem
+      cert1.pem
+#+end_src
+
+=live/<domain>= contain <domain>'s active cert and key. The files
+within symlink to counterparts in =archive/<domain>=.
+
+=archive/<domain>= contain current and past generation of keys and
+certificates. The files belonging to each generation end in a serial
+number. A domain for which Let's Encrypt has issued four certificates
+would have these files beneath =/etc/letsencrypt/archive/<domain>=:
+
+#+begin_src text
+  chain1.pem
+  fullchain1.pem
+  cert1.pem
+  privkey1.pem
+  chain2.pem
+  fullchain2.pem
+  cert2.pem
+  privkey2.pem
+  chain3.pem
+  fullchain3.pem
+  cert3.pem
+  privkey3.pem
+  chain4.pem
+  fullchain4.pem
+  cert4.pem
+  privkey4.pem
+#+end_src
+
 * Let's Encrypt documentation
 
 https://eff-certbot.readthedocs.io
-
-
