@@ -1,7 +1,7 @@
+#+TITLE: Managing Let's Encrypt TLS Certificates
 
 
-
-* Procedure
+* Preliminaries
 
 ** Install EFF's Certbot
 
@@ -9,7 +9,16 @@
   sudo apt install --yes certbot
 #+end_src
 
-** Request certificate
+* Configuration files and directories
+
+certbot maintains certificates its configuration
+
+=/etc/letsencrypt=
+
+
+* certbot command idioms
+
+** Request a new certificate
 
 This invocation does the following:
 
@@ -34,21 +43,37 @@ requests this file and if successful, considers the request authentic.
 certbot writes the certificate into its configuration directory.  See
 below for the directory structure.
 
-** Configure the HTTP server
+*** Configure the HTTP server
 
-* Configuration files and directories
+Assumptions:
 
-certbot maintains certificates its configuration
+  - 
 
-=/etc/letsencrypt=
 
-* Renewal process
+#+begin_src sh
 
-Let's Encrypt certificates are valid for 90 days. 
+  # Disable sites with configuration problems
+  for site in abramsdesigns affectedgeneration bednark markstruzan tiffanyabrams; do
+    sudo a2dissite $site
+  done
 
-* certbot command idioms
+  # Enable the proxy and ssl modules
+  for module in proxy ssl; do
+    sudo a2enmod $module
+  done
+#+end_src
 
-Display a list of managed certificates:
+
+** Renew a certificate
+
+A Let's Encrypt certificate is valid for 90 days, at which point one
+needs to renew it.
+
+#+begin_src sh
+#+end_src
+
+
+** View managed certificates
 
 #+begin_src sh
 #+end_src
