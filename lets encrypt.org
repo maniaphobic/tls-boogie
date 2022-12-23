@@ -132,8 +132,8 @@ key. The files within symlink to counterparts in =archive/<domain>=.
 The =archive/<domain>= directory contains current and past generations
 of keys and certificates. The files belonging to each generation end
 in a serial number. The files with the largest serial number are the
-most recent. The files in the =live/<domain>= directory symlink to
-them.
+active certificate, the ones to which the files in =live/<domain>=
+symlink.
 
 For instance, a domain for which Let's Encrypt has issued four
 certificates would have these files beneath
@@ -144,14 +144,17 @@ certificates would have these files beneath
   fullchain1.pem
   cert1.pem
   privkey1.pem
+
   chain2.pem
   fullchain2.pem
   cert2.pem
   privkey2.pem
+
   chain3.pem
   fullchain3.pem
   cert3.pem
   privkey3.pem
+
   chain4.pem
   fullchain4.pem
   cert4.pem
