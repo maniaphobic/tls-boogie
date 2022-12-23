@@ -113,26 +113,27 @@ certbot maintains its configuration in =/etc/letsencrypt=:
 
 #+begin_src text
   /etc/letsencrypt/
-    live/<domain>/                                   # <domain>'s active cert and key, symlinks to archive/<domain>/*
+    live/<domain>/                                   
       cert.pem -> ../../archive/cert1.pem
       chain.pem -> ../../archive/chain1.pem
       fullchain.pem -> ../../archive/fullchain1.pem
       privkey.pem -> ../../archive/privkey1.pem
-    /renewal/<domain>.conf                            # Config to use when renewing <domain>
-    archive/<domain>/                                # Archive of <domain>'s old certs and keys
+    /renewal/<domain>.conf                           
+    archive/<domain>/                                
       chain1.pem
       privkey1.pem
       fullchain1.pem
       cert1.pem
 #+end_src
 
-=live/<domain>= contain <domain>'s active cert and key. The files
-within symlink to counterparts in =archive/<domain>=.
+The =live/<domain>= directory contains <domain>'s active cert and
+key. The files within symlink to counterparts in =archive/<domain>=.
 
-=archive/<domain>= contain current and past generation of keys and
-certificates. The files belonging to each generation end in a serial
-number. The files with the largest serial number are most recent and
-the =live/<domain>= directory symlinks to them.
+The =archive/<domain>= directory contains current and past generations
+of keys and certificates. The files belonging to each generation end
+in a serial number. The files with the largest serial number are the
+most recent. The files in the =live/<domain>= directory symlink to
+them.
 
 For instance, a domain for which Let's Encrypt has issued four
 certificates would have these files beneath
@@ -156,3 +157,5 @@ certificates would have these files beneath
   cert4.pem
   privkey4.pem
 #+end_src
+
+The =live/<domain>/*.pem= files would symlink to the =*4.pem= files.
